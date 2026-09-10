@@ -1,0 +1,2 @@
+@media (max-width: 1024px) { .section { padding: 3.5rem 0; } }
+@media (max-width: 768px) { .container { padding: 0 1rem; } .section { padding: 2.5rem 0; } .btn { width: 100%; } }
