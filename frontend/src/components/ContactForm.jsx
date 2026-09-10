@@ -16,10 +16,17 @@ export const ContactForm = () => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
     try {
-      const res = await API.post('/contact', formData);
-      if (res.data.success) {
+      let res;
+      try {
+        res = await API.post('/contact', formData);
+      } catch (err1) {
+        res = await API.post('/messages', formData);
+      }
+      if (res.data && res.data.success) {
         setStatus({ loading: false, success: true, error: '' });
         setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error(res.data?.message || 'Unable to send message.');
       }
     } catch (err) {
       setStatus({ loading: false, success: false, error: err.response?.data?.message || 'Unable to send message.' });

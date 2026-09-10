@@ -7,6 +7,7 @@ const router = express.Router();
 const messageController = require('../controllers/messageController');
 const authMiddleware = require('../middleware/authMiddleware');
 router.post('/', messageController.createMessage);
+router.post('/contact', messageController.createMessage);
 router.get('/', authMiddleware, messageController.getMessages);
 router.put('/:id/read', authMiddleware, messageController.markAsRead);
 router.put('/:id/unread', authMiddleware, messageController.markAsUnread);

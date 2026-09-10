@@ -48,6 +48,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/education', educationRoutes);
 app.use('/api/experience', experienceRoutes);
 app.use('/api/achievements', achievementRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/contact', messageRoutes);
 app.use('/api', messageRoutes);
 app.use('/api/settings', settingRoutes);
 
