@@ -47,5 +47,10 @@ app.get('/', (req, res) => res.json({ success: true, message: 'Shazid Ahmed Pers
 
 app.use(errorHandler);
 
+const autoSeed = require('./database/autoSeed');
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Backend REST API server running on port ${PORT}`));
+app.listen(PORT, async () => {
+  console.log(`Backend REST API server running on port ${PORT}`);
+  await autoSeed();
+});
