@@ -17,11 +17,21 @@ exports.updateSettings = async (req, res, next) => {
   try {
     const settings = req.body;
     for (const [key, value] of Object.entries(settings)) {
-      await db.query(
-        'INSERT INTO settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?',
-        [key, String(value), String(value)]
-      );
+      if (value !== undefined && value !== null) {
+        const valStr = String(value);
+        const [result] = await db.query(
+          'UPDATE settings SET setting_value = ? WHERE setting_key = ?',
+          [valStr, key]
+        );
+        const affected = (result && (result.affectedRows !== undefined ? result.affectedRows : result.changes)) || 0;
+        if (affected === 0) {
+          await db.query(
+            'INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)',
+            [key, valStr]
+          );
+        }
+      }
     }
-    res.json({ success: true, message: 'Settings saved.' });
+    res.json({ success: true, message: 'Settings saved successfully.' });
   } catch (err) { next(err); }
 };
